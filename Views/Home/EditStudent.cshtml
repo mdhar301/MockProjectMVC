@@ -1,0 +1,111 @@
+﻿@model Student
+
+<h2>Edit Student Data</h2>
+
+<form asp-action="EditStudent">
+    <div class="form-group">
+        <label asp-for="Id" class="control-label">Student ID</label>
+        <input asp-for="Id" class="form-control" disabled />
+    </div>
+    <div class="form-group">
+        <label asp-for="FirstName" class="control-label">First Name</label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+
+    </div>
+    <div class="form-group">
+        <label asp-for="LastName" class="control-label">Last Name</label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+
+    </div>
+    <div class="form-group">
+        <label asp-for="DateOfBirth" class="control-label">Date of Birth</label>
+        <input asp-for="DateOfBirth" class="form-control" />
+        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+
+    </div>
+   <div class="form-group">
+        @Html.LabelFor(model => model.CourseId, "Course Name")
+        @Html.DropDownListFor(model => model.CourseId, new SelectList(ViewBag.Courses, "CourseId", "CourseName"), "- Select Course -", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.CourseId)
+        <style>
+            select option {
+                color: blue;
+            }
+
+        </style>
+        <div class="form-group">
+            <label for="hobbies">Hobbies:</label>
+            <select class="form-control" id="hobbies" name="SelectedHobbyIds" multiple>
+                @foreach (var hobby in ViewBag.Hobbies)
+                {
+                  
+                    
+                        <option value="@hobby.Id" selected="true">@hobby.Name</option>
+                    
+                }
+            </select>
+@*            <span asp-validation-for="StudentHobbies" class="text-danger"></span>
+*@
+
+        </div>
+
+        @if (Model.StudentHobbies != null)
+        {
+            int count = 0;
+            foreach (var sh in Model.StudentHobbies)
+            {
+                count++;
+                if (sh.Hobbies != null && count < Model.StudentHobbies.Count)
+                {
+                    <span>@sh.Hobbies.Name@(',')</span>
+                    <br />
+                }
+                else
+                {
+                    <span>
+                        <span>@sh.Hobbies.Name</span>
+                        <br />
+                    </span>
+
+                }
+            }
+        }
+
+     @*    <div class="form-group">
+        <label for="hobbies">Hobbies:</label>
+        <select asp-for="@Model.StudentHobbies" asp-items="@ViewBag.Hobbies" class="form-select" multiple></select>
+    </div>*@
+
+
+
+  @*  <div class="form-group">
+        <label for="hobbies">Hobbies:</label>
+         <select asp-for="@Model.hobby " asp-items="@ViewBag.Hobbies" class="form-select" multiple></select>*@
+           @* @foreach (var hobby in ViewBag.Hobbies)
+            {
+                    bool check = false;
+                    @foreach(var i in Model.hobby)
+                    {
+                        @if (i == hobby.Id)
+                        {
+                            check = true;
+                        }
+                    }
+                    @if(check)
+                    {
+                        <option value="@hobby.Id" selected>@hobby.Name</option>
+                    }
+                    else{
+                    <option value="@hobby.Id">@hobby.Name</option>
+                    }
+                }
+            }*@
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary"onclick= "return confirm('Are you sure you wish to update this student data?')">Update Student Data</button>
+        <button class="btn btn-primary">                    
+            <a asp-controller="Home" asp-action="Index" style="text-decoration:none;color:white">Back</a></button>
+    </div>
+</form>
